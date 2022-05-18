@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div style="height:50px"></div>
+    <main-nav-bar v-if="this.$route.path != '/open'"/><!--开屏页不展示navbar-->
+    <keep-alive exclude="Open,Detail,Cart,List,pending"><!--exclude可以理解为不缓存，关闭就是关闭了-->
+      <router-view/>
+    </keep-alive>
+    <!-- 撑起被tabbar盖住的部分 -->
+		<div style="height:60px"></div>
+    <main-tab-bar v-if="this.$route.path != '/open'"/><!--开屏页不展示tabbar-->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MainNavBar from 'components/content/mainNavBar/mainNavBar'
+import MainTabBar from 'components/content/mainTabBar/MainTabBar'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MainTabBar,
+    MainNavBar
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import "assets/css/base.css";
 </style>
