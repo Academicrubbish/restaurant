@@ -1,10 +1,13 @@
 <template>
   <div>
+		<!-- 页头 -->
     <el-breadcrumb>
 			<el-breadcrumb-item :to="{ path: '/profile' }" replace style="padding-left:15px">用户</el-breadcrumb-item>
 			<el-breadcrumb-item>我的资料</el-breadcrumb-item>
 		</el-breadcrumb>
 		<p class="text">我的资料</p>
+
+		<!-- 功能 -->
 		<el-card>
 			<el-row>
 				<el-col :span="12">
@@ -24,6 +27,7 @@
 export default {
   name:'profileData',
 	methods: {
+		//修改昵称
 		open() {
 			this.$prompt('请输入新昵称','修改昵称',{
 				confirmButtonText: '确定',
@@ -48,6 +52,7 @@ export default {
 				});
 			});
 		},
+		//将新的昵称保存到store
 		changeName(value) {
 			const product = {}
 			product.name = value

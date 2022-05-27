@@ -24,7 +24,7 @@
 				</div>
 			</div>
     </el-card>
-		<!-- 订餐 -->
+		<!-- 订餐按钮 -->
 		<div class="shopBox">
 			<div v-if="cartListLength == 0">
 				<el-button type="success" @click="addToCart">加入购物车</el-button>
@@ -73,9 +73,8 @@ export default {
 					message: '请前往用户页登录先噢，亲',
 					position: 'top-left'
 				});
+				this.$router.replace('/profile')
 			} else {
-				
-
 				const product = {};
 				product.did = this.did;
 				product.imagePath = this.imagePath;

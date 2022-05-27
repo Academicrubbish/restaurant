@@ -22,7 +22,6 @@ const state = {
 const store = new Vuex.Store({
   state,
   mutations //改变state
-  // actions //逻辑判断，便于监控
 })
 
 //3.挂载到Vue实例上

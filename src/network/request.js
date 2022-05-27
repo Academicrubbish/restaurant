@@ -8,9 +8,9 @@ export function request(config) {
 		timeout: 5000
 	})
 
-	// //2.axios的拦截器
+	//2.axios的拦截器
 	instance.interceptors.response.use(res => {
-		return res.data//只需要res里的data
+		return res.data //我只需要res里的data
 	},err => {
 		console.log(err)
 	})

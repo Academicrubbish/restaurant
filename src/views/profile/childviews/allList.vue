@@ -18,52 +18,61 @@
 				</el-table-column>
 				<el-table-column prop="time" label="下单时间" align="center"/>
 				<el-table-column prop="name" label="联系人" align="center" min-width="70"/>
-				<el-table-column label="操作" align="center" min-width="46">
-					<template slot-scope="scope">
-						<el-button	@click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">
-							移除
-						</el-button>
-					</template>
-				</el-table-column>
 			</el-table>
-	</el-card>
+    </el-card>
+    <div>
+      <el-pagination
+        small
+        @current-change="handleCurrentChange"
+        :current-page="currentPage4"
+        :page-size="5"
+        :page-count="total"
+        layout="prev, pager, next, jumper">
+      </el-pagination>
+    </div>
 	</div>
 </template>
 
 <script>
+
+import { getOrderData } from 'network/profile'
+
+import {getDate} from 'common/utils'
+
 export default {
-	name: "List",
+	name: "allList",
 	data() {
 		return {
-			tableData:[]
+			tableData:[],
+      currentPage4: 1,
+      total: 0
 		}
 	},
 	methods: {
-		//把store里的数据展示出来
-		obtainData() {
-			var i = 1;
-			for(let item of this.$store.state.orderList) {
-				const product = {};
-				product.num = i;
-				product.image = item.image;
-				product.name = item.name;
-				product.time = item.time;
-				this.tableData.push(product);
-				i++;
-			}
-		},
-		//删除某一项
-		deleteRow(index, rows) {
-			rows.splice(index, 1);
-			const product = {};
-			product.list = this.tableData;
-
-			this.$store.commit('changelist',product)
-			this.$store.commit('renewStorage')
-		}
+    /**
+     * 网络请求相关函数
+    */
+    getOrderData(start) {
+      getOrderData(start).then(res => {
+        this.total = Math.ceil(res.total/5) - 1
+        const list = []
+        for(let item of res.subjects) {
+          const product = {};
+          product.num = item.oid*1 - 130;
+          product.image = require('assets/img/resource/'+item.img_sm);
+          product.name = item.user_name;
+          product.time = getDate(item.order_time*1,'yyyy-MM-dd hh:mm');
+          list.push(product);
+        }
+        this.tableData = list
+      })
+    },
+    handleCurrentChange(val) {
+      this.getOrderData((val-1)*5)
+    }
 	},
 	mounted() {
-		this.obtainData()
+    this.getOrderData(0)
 	}
 }
 </script>
@@ -91,5 +100,12 @@ export default {
 	}
 	.el-table td.el-table__cell div {
 		text-align: center;
+	}
+  .el-pagination {
+    width: 96%;
+		margin-left: 2%;
+  }
+	.el-pagination__jump {
+		margin-left: 0px;
 	}
 </style>

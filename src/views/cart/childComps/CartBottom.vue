@@ -33,7 +33,7 @@ export default {
 			return this.$store.state.num
 		},
 		cartPriceSum() {
-			return this.$store.state.priceSum
+			return this.$store.state.priceSum.toFixed(2)
 		}
 	},
 	methods: {

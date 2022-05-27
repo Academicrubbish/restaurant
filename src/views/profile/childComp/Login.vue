@@ -18,11 +18,10 @@ export default {
     return {
 			userName: this.$store.state.userName,
 			password: ''
-      // userName: JSON.parse(localStorage.getItem("userState")).userName,
-			// password: JSON.parse(localStorage.getItem("userState")).password
     }
   },
   methods: {
+		//登录
     login() {
 			loginToken(this.userName,this.password).then(res => {
 				//登陆成功
@@ -36,7 +35,7 @@ export default {
 
 					this.$store.commit('changeToken',product)
 
-					//在浏览器中，如果该token存在，则找到该token对应的缓存信息赋值给vuex
+					//在浏览器中，如果该token存在，则找到该token对应的缓存信息赋值给store
 					//如果不存在，就创建token对象，并初始化
 					var tokenKey = JSON.parse(localStorage.getItem(res.subjects.token))
 

@@ -12,6 +12,7 @@ export default {
       state.cartList.push(payload)
     }
   },
+
   /**
    * 购物车内的操作 */
 
@@ -39,26 +40,6 @@ export default {
       }
     }
   },
-  /**
-   * 下单页order */
-  changeOrderList(state,payload) {
-    const list = [];
-    for (let item of state.cartList) {
-      if(item.checked == true) {
-        const product = {};
-        product.time = payload.time;
-        product.name = payload.name;
-        product.image = item.imagePath;
-        
-        state.orderList.push(product);
-        list.push(product);
-      }
-    }
-    state.pendingList = list;
-  },
-
-  /**
-   * cart-bottom页 */
 
   //bottom的全选
   allChecked(state) {
@@ -74,24 +55,7 @@ export default {
     }
   },
 
-  /*
-  * 订单页 */ 
-
-  //下单完成后，删除选中的商品
-  deleteCartList(state) {
-    for(let i = 0; i < state.cartList.length;) {
-      //由于splice是改变原数组
-      //所以删除一个之后，剩下的就继承了他的下标
-      //原下标就是一个新的数据
-      if(state.cartList[i].checked) {
-        state.cartList.splice(i,1)
-      } else {
-        i++
-      }
-    }
-  },
-
-  //更新购物车 总价 和 选中商品数 
+  //更新购物车状态
   renew(state) {
     state.priceSum = 0
     state.num = 0
@@ -113,50 +77,91 @@ export default {
     }
   },
 
+  /**
+   * 下单页order */
+  //把用户下单的数据进行处理
+  changeOrderList(state,payload) {
+    const list = [];
+    for (let item of state.cartList) {
+      if(item.checked == true) {
+        const product = {};
+        product.time = payload.time;
+        product.name = payload.name;
+        product.image = item.imagePath;
+        
+        //把用户下单的数据存到用户订单页
+        state.orderList.push(product);
+        list.push(product);
+      }
+    }
+    //把用户新下单的数据替换收货页
+    state.pendingList = list;
+  },
+
+  //下单完成后，删除选中的商品
+  deleteCartList(state) {
+    for(let i = 0; i < state.cartList.length;) {
+      //由于splice是改变原数组
+      //所以删除一个之后，剩下的就继承了他的下标
+      //原下标就是一个新的数据
+      if(state.cartList[i].checked) {
+        state.cartList.splice(i,1)
+      } else {
+        i++
+      }
+    }
+  },
+
   /*
   * 登录页 */
- changeToken(state,payload) {
-   state.token = payload.token
-   state.userName = payload.userName
- },
- //将storage的数据传给store
- renewState(state,payload) {
-   state.cartList = payload.nowCartList
-   state.orderList = payload.orderList
-   state.address = payload.address
-   state.nickName = payload.nickName
- },
- //一旦store的数据发生改变就更新storage
- renewStorage(state) {
-  const orderList = state.orderList;//用户曾经的订单
-  const nowCartList = state.cartList;//用户当前的购物车记录
-  const address = state.address;//用户默认地址
-  const nickName = state.nickName;//用户昵称
 
-  var str = JSON.stringify({orderList,nowCartList,address,nickName})
-  localStorage.setItem(state.token, str);
- },
- //修改昵称
- changeNickName(state,payload) {
-   state.nickName = payload.name
- },
- //修改默认地址
- changeAddress(state,payload) {
-  state.address = payload.address
- },
- //修改订单
- changelist(state,payload) {
-   state.orderList = payload.list
- },
- Logout(state) {
-  state.token = '';
-  state.cartList = [];
-  state.allChecked = false;
-  state.priceSum = 0;
-  state.num = 0;
-  state.pengdingList = [];
-  state.orderList = [];
-  state.address = '';
-  state.nickName = '未命名';
- }
+  //登录把用户的token记录
+  changeToken(state,payload) {
+    state.token = payload.token
+    state.userName = payload.userName
+  },
+
+  //将storage的数据传给store
+  renewState(state,payload) {
+    state.cartList = payload.nowCartList
+    state.orderList = payload.orderList
+    state.address = payload.address
+    state.nickName = payload.nickName
+  },
+
+  //实时根据store的数据更新storage
+  renewStorage(state) {
+    const orderList = state.orderList;//用户曾经的订单
+    const nowCartList = state.cartList;//用户当前的购物车记录
+    const address = state.address;//用户默认地址
+    const nickName = state.nickName;//用户昵称
+
+    var str = JSON.stringify({orderList,nowCartList,address,nickName})
+    localStorage.setItem(state.token, str);
+  },
+
+  //修改昵称
+  changeNickName(state,payload) {
+    state.nickName = payload.name
+  },
+  //修改默认地址
+  changeAddress(state,payload) {
+    state.address = payload.address
+  },
+  //修改订单
+  changelist(state,payload) {
+    state.orderList = payload.list
+  },
+  //退出登录
+  Logout(state) {
+    state.token = '';
+    state.cartList = [];
+    state.allChecked = false;
+    state.priceSum = 0;
+    state.num = 0;
+    state.pengdingList = [];
+    state.orderList = [];
+    state.address = '';
+    state.nickName = '未命名';
+  }
 }

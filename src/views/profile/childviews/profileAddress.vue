@@ -1,10 +1,13 @@
 <template>
   <div>
+		<!-- 页头 -->
     <el-breadcrumb>
 			<el-breadcrumb-item :to="{ path: '/profile' }" replace style="padding-left:15px">用户</el-breadcrumb-item>
 			<el-breadcrumb-item>默认地址</el-breadcrumb-item>
 		</el-breadcrumb>
 		<p class="text">我的地址</p>
+
+		<!-- 功能 -->
 		<el-card>
 			<el-row>
 				<el-col :span="12">
@@ -24,6 +27,7 @@
 export default {
   name:'profileAddress',
 	methods: {
+		//修改默认地址
 		open() {
 			this.$prompt('请输入新地址','修改地址',{
 				confirmButtonText: '确定',
@@ -48,6 +52,7 @@ export default {
 				});
 			});
 		},
+		//将默认地址保存到store
 		changeAddress(value) {
 			const product = {}
 			product.address = value

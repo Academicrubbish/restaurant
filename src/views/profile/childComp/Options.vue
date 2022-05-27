@@ -7,10 +7,13 @@
 			<el-card>默认地址</el-card>
 		</div>
 		<div @click="listClick">
-			<el-card>全部订单</el-card>
+			<el-card>用户订单</el-card>
 		</div>
 		<div @click="pendingClick">
 			<el-card>待收货</el-card>
+		</div>
+		<div @click="allListClick">
+			<el-card>全部订单</el-card>
 		</div>
 	</div>
 </template>
@@ -32,6 +35,9 @@
 		pendingClick() {
 			this.$router.push('/pending')
 		},
+		allListClick() {
+			this.$router.push('/allList')
+		}
 	}
 }
 </script>

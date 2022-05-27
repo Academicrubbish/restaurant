@@ -73,6 +73,12 @@ export default {
   .el-main {
     padding: 5px 0 0 5px;
     font-size: 13px;
+
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    word-wrap: break-word;-webkit-line-clamp: 2;-webkit-box-orient: vertical
   }
 
   .el-footer {

@@ -29,16 +29,16 @@ const routes = [
     component:() => import('../views/cart/Cart')
 	},
   {
-    path: '/order',//下单页
+    path: '/order',//购物车下单页
     component:() => import('../views/cart/childComps/Order')
   },
 
   {
-		path: '/profile',//我的
+		path: '/profile',//用户页
 		component:() => import('../views/profile/Profile')
   },
   {
-		path: '/list',//订单页
+		path: '/list',//用户订单页
 		component:() => import('../views/profile/childviews/List')
   },
   {
@@ -52,6 +52,10 @@ const routes = [
   {
 		path: '/pending',//用户待收货页
 		component:() => import('../views/profile/childviews/pending')
+  },
+  {
+		path: '/allList',//用户待收货页
+		component:() => import('../views/profile/childviews/allList')
   }
 ]
 

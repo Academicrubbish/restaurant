@@ -30,46 +30,70 @@
 <script>
 import { formatDate } from 'common/utils'
 
+import { addOrder } from 'network/order'
+
 export default {
 	name: "Order",
   data() {
     return {
       radio: '0',
-      name: '',
+      name: this.$store.state.nickName,
       phone: '',
       address: this.$store.state.address
     }
   },
   methods: {
+    addOrder(did,tel,uerName,sex,address) {
+      addOrder(did,tel,uerName,sex,address).then(res => {})
+    },
     onSubmit() {
       //判断信息是否都输入
-      if (!(this.name != '' && this.radio != 0 && this.phone != '' && this.address != '')) {
+      this.name = this.name.trim()//去掉无效空格
+      if (this.name == '' || this.radio == 0 || this.phone == '' || this.address == '') {
         this.$notify({
           title: '下单失败',
           message:'您的订单信息没有填写完全',
           position: 'top-left'
         });
       } else {
-        var time = formatDate('yyyy-MM-dd hh:mm'); //获取当前时间
-        const product = {};
-        product.time = time;
-        product.name = this.name;
-        //将选中的商品信息传至订单页
+        //判断手机号是否合法
+        var telPatt = /^1[356789]\d{9}$/
+        if (!telPatt.test(this.phone)) {
+          this.$notify({
+            title: '下单失败',
+            message:'您的手机号填写不合法',
+            position: 'top-left'
+          });
+        } else {
 
-        this.$store.commit('changeOrderList',product);
+          //将数据传给后端
+          for(let item of this.$store.state.cartList){
+            if(item.checked == true) {
+              this.addOrder(item.did, this.phone, this.name, this.radio, this.address);
+            }
+          }
 
-        //删除购物车里的已经被结算的商品
-        this.$store.commit('deleteCartList');
-        this.$store.commit('renew');
-        //更新storage数据
-        this.$store.commit('renewStorage')
+          var time = formatDate('yyyy-MM-dd hh:mm'); //获取当前时间
+          const product = {};
+          product.time = time;
+          product.name = this.name;
+          //将选中的商品信息传至订单页
 
-        this.$notify({
-          title: '下单成功',
-          message:'您可以在用户中心查看订单状态',
-          position: 'top-left'
-        });
-        this.$router.back();
+          this.$store.commit('changeOrderList',product);
+
+          //删除购物车里的已经被结算的商品
+          this.$store.commit('deleteCartList');
+          this.$store.commit('renew');
+          //更新storage数据
+          this.$store.commit('renewStorage')
+
+          this.$notify({
+            title: '下单成功',
+            message:'您可以在用户中心查看订单状态',
+            position: 'top-left'
+          });
+          this.$router.back();
+        }
       }
     }
   }

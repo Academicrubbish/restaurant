@@ -1,17 +1,19 @@
 <template>
 	<div>
+		<!-- 页头 -->
 		<el-breadcrumb>
 			<el-breadcrumb-item :to="{ path: '/profile' }" replace style="padding-left:15px">用户</el-breadcrumb-item>
 			<el-breadcrumb-item>我的订单</el-breadcrumb-item>
 		</el-breadcrumb>
 
+		<!-- 表单 -->
 		<p class="text">订单记录</p>
 		<el-card>
 			<el-table	:data="tableData"	stripe width='100%'>
 				<el-table-column prop="num" label="编号" min-width="50"	align="center"/>
 				<el-table-column label="菜品"	align="center">
 					<template scope="scope">
-						<img :src="scope.row.image" width="100%" height="100%"/>
+						<img :src="scope.row.image" width="68" height="45"/>
           </template>
 				</el-table-column>
 				<el-table-column prop="time" label="下单时间" align="center"/>
@@ -30,6 +32,7 @@ export default {
 		}
 	},
 	methods: {
+		//展示数据
 		obtainData() {
 			var i = 1;
 			for(let item of this.$store.state.pendingList) {

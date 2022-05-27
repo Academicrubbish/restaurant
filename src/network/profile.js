@@ -2,13 +2,13 @@ import {request} from "./request"
 import Qs from 'qs'
 
 
-export function loginToken(userName, password) {
+export function getOrderData(start) {
   return request({
-    url:'/loginToken.php',
+    url:'/orderInfo.php',
     method: 'post',
     data: Qs.stringify({
-      userName,
-      password
+      start,
+      length:5
     })
   })
 }

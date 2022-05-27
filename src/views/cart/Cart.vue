@@ -2,6 +2,7 @@
 	<div>
 		<!-- 购物车为空展示页 -->
 		<no-shop v-if="this.$store.state.cartList.length == 0"/>
+
 		<!-- 购物车页 -->
 		<div v-else>
 			<!-- 购物车列表页 -->
@@ -11,8 +12,9 @@
 			<!-- 下单页 -->
 			<order v-if="condition == 1"/>
 		</div>
+
 		<!-- 撑起被bottom挡住的内容 -->
-		<div style="height:50px"></div>
+		<div style="height:50px"/>
 	</div>
 </template>
 
